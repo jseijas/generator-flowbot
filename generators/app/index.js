@@ -40,9 +40,9 @@ module.exports = yeoman.Base.extend({
    */
   writing: function () {
     var done = this.async();
-    var root = path.join(this.destinationRoot(), this.props.appName);
+    var root = path.join(this.destinationRoot(), this.props.appFolder);
     if (!fs.existsSync(root)) {
-      this.log.create(this.props.appName + '/');
+      this.log.create(this.props.appFolder + '/');
       fs.mkdirSync(root);
     }
     this.destinationRoot(root);
