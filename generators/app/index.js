@@ -40,28 +40,27 @@ module.exports = yeoman.Base.extend({
    */
   writing: function () {
     var done = this.async();
-    done();
-    // var root = path.join(this.destinationRoot(), this.props.appName);
-    // if (!fs.existsSync(root)) {
-    //   this.log.create(this.props.appName + '/');
-    //   fs.mkdirSync(root);
-    // }
-    // this.destinationRoot(root);
-    // this.log();
-    // glob('**', {dot:true, cwd: this.sourceRoot()}, function (er, files) {
-    //   for (var i = 0; i < files.length; i++) {
-    //     var fileName = files[i];
-    //     var targetName = fileName.replace(/^_/, '');
-    //     if (fileName.startsWith('_')) {
-    //       this.template(fileName, targetName, this.props);
-    //     } else {
-    //       this.fs.copy(
-    //         this.templatePath(fileName),
-    //         this.destinationPath(targetName));
-    //     }
-    //   }
-    //   done();
-    // }.bind(this));
+    var root = path.join(this.destinationRoot(), this.props.appName);
+    if (!fs.existsSync(root)) {
+      this.log.create(this.props.appName + '/');
+      fs.mkdirSync(root);
+    }
+    this.destinationRoot(root);
+    this.log();
+    glob('**', {dot:true, cwd: this.sourceRoot()}, function (er, files) {
+      for (var i = 0; i < files.length; i++) {
+        var fileName = files[i];
+        var targetName = fileName.replace(/^_/, '');
+        if (fileName.startsWith('_')) {
+          this.template(fileName, targetName, this.props);
+        } else {
+          this.fs.copy(
+            this.templatePath(fileName),
+            this.destinationPath(targetName));
+        }
+      }
+      done();
+    }.bind(this));
   },
 
   /**
