@@ -1,20 +1,23 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+
+var Generator = require('yeoman-generator');
 var path = require('path');
 
-module.exports = yeoman.Base.extend({
-  initialize: function () {
+module.exports = class extends Generator{
+  initialize() {
     this.data = {};
     this.conflicter.force = true;
-  },
-  loadCards: function () {
+  }
+
+  loadCards() {
     var done = this.async();
     var cardFileName = path.join(this.destinationRoot(), '/bot/cards/cards.json');
     var cards = require(cardFileName);
     this.data.cards = cards;
     return done();
-  },
-  inputName: function () {
+  }
+
+  inputName() {
     var done = this.async();
     this.prompt([{
       type: 'input',
@@ -26,8 +29,9 @@ module.exports = yeoman.Base.extend({
       this.data.card.name = answers.name;
       return done();
     });
-  },
-  checkName: function () {
+  }
+
+  checkName() {
     var done = this.async();
     for (var i = 0; i < this.data.cards.length; i++) {
       if (this.data.cards[i].name.toLowerCase() === this.data.card.name.toLowerCase()) {
@@ -35,8 +39,9 @@ module.exports = yeoman.Base.extend({
       }
     }
     return done();
-  },
-  inputType: function () {
+  }
+
+  inputType() {
     var done = this.async();
     var prompts = [{
       type: 'list',
@@ -48,8 +53,9 @@ module.exports = yeoman.Base.extend({
       this.data.card.type = answers.cardType.toLowerCase();
       return done();
     });
-  },
-  inputPromptType: function() {
+  }
+
+  inputPromptType() {
     var done = this.async();
     var validTypes = ['prompt'];
     if (validTypes.indexOf(this.data.card.type) < 0) {
@@ -69,8 +75,9 @@ module.exports = yeoman.Base.extend({
       }
       return done();
     });
-  },
-  inputTitle: function () {
+  }
+
+  inputTitle() {
     var done = this.async();
     var validTypes = ['hero'];
     if (validTypes.indexOf(this.data.card.type) >= 0) {
@@ -86,8 +93,9 @@ module.exports = yeoman.Base.extend({
     } else {
       return done();
     }
-  },
-  inputSubtitle: function () {
+  }
+
+  inputSubtitle() {
     var done = this.async();
     var validTypes = ['hero'];
     if (validTypes.indexOf(this.data.card.type) >= 0) {
@@ -105,8 +113,9 @@ module.exports = yeoman.Base.extend({
     } else {
       return done();
     }
-  },
-  inputImage: function () {
+  }
+
+  inputImage() {
     var done = this.async();
     var validTypes = ['hero', 'image'];
     if (validTypes.indexOf(this.data.card.type) >=0) {
@@ -135,8 +144,9 @@ module.exports = yeoman.Base.extend({
     } else {
       return done();
     }
-  },
-  inputText: function () {
+  }
+
+  inputText() {
     var done = this.async();
     var validTypes = ['text', 'hero', 'prompt'];
     if (validTypes.indexOf(this.data.card.type) >=0) {
@@ -152,8 +162,9 @@ module.exports = yeoman.Base.extend({
     } else {
       return done();
     }
-  },
-  inputButton: function() {
+  }
+
+  inputButton() {
     var done = this.async();
     var validTypes = ['hero'];
     if (validTypes.indexOf(this.data.card.type) < 0) {
@@ -210,8 +221,9 @@ module.exports = yeoman.Base.extend({
         return done();
       }
     });
-  },
-  inputCarouselCard: function() {
+  }
+
+  inputCarouselCard() {
     var done = this.async();
     var validTypes = ['carousel'];
     if (validTypes.indexOf(this.data.card.type) < 0) {
@@ -238,8 +250,9 @@ module.exports = yeoman.Base.extend({
       this.data.card.cards.push(answers.card);
       this.inputCarouselCard();
     });
-  },
-  inputVariableName: function () {
+  }
+
+  inputVariableName() {
     var done = this.async();
     var validTypes = ['prompt'];
     console.log(this.data.card.type);
@@ -254,8 +267,9 @@ module.exports = yeoman.Base.extend({
       this.data.card.variable = answers.variableName;
       return done();
     });
-  },
-  inputChoice: function() {
+  }
+
+  inputChoice() {
     var done = this.async();
     if (this.data.card.prompt && this.data.card.prompt === 'choice' && !this.data.card.isMenu) {
       var prompts = [{
@@ -285,8 +299,9 @@ module.exports = yeoman.Base.extend({
     } else {
       return done();
     }
-  },
-  inputMenu: function() {
+  }
+
+  inputMenu() {
     var done = this.async();
     if (this.data.card.prompt && this.data.card.prompt === 'choice' && this.data.card.isMenu) {
       var prompts = [{
@@ -316,13 +331,15 @@ module.exports = yeoman.Base.extend({
     } else {
       return done();
     }
-  },
-  printCards: function () {
+  }
+
+  printCards() {
     this.data.cards.push(this.data.card);
     console.log(this.data.cards);
-  },
-  saveCards: function () {
-    var cardFileName = path.join(this.destinationRoot(), '/bot/cards/cards.json');
-    this.write(cardFileName, JSON.stringify(this.data.cards, null, 2));
   }
-});
+
+  saveCards() {
+    var cardFileName = path.join(this.destinationRoot(), '/bot/cards/cards.json');
+    this.fs.write(cardFileName, JSON.stringify(this.data.cards, null, 2));
+  }
+};

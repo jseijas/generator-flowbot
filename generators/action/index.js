@@ -1,11 +1,12 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+
+var Generator = require('yeoman-generator');
 var path = require('path');
 var fs = require('fs');
 
-module.exports = yeoman.Base.extend({
+module.exports = class extends Generator{
 
-  prompting: function () {
+  prompting() {
     this.log('\r\n');
     this.log('Generator of flowbot actions');
     this.log('\r\n');
@@ -24,9 +25,9 @@ module.exports = yeoman.Base.extend({
       this.props = props;
       this.props.actionName = uncapitalize(this.props.actionName);
     }.bind(this));
-  },
+  }
 
-  writing: function () {
+  writing() {
     var root = path.join(this.destinationRoot(), 'bot/actions');
     if (!fs.existsSync(root)) {
       fs.mkdirSync(root);
@@ -35,6 +36,6 @@ module.exports = yeoman.Base.extend({
     console.log(root);
     var source = '_action.js';
     var target = this.props.actionName + '.js';
-    this.template(source, target, this.props);
+    this.fs.copyTpl(this.templatePath(source), this.destinationPath(target), this.props);
   }
-});
+};

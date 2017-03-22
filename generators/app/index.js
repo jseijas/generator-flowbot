@@ -1,17 +1,17 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var path = require('path');
 var fs = require('fs');
 var glob = require('glob');
 
-module.exports = yeoman.Base.extend({
+module.exports = class extends Generator{
 
   /**
    * Ask general questions to generate the flowbot app.
    */
-  prompting: function () {
+  prompting() {
     this.log(yosay(
       'Welcome to the stupendous ' + chalk.red('generator-flowbot') + ' generator!'
     ));
@@ -33,12 +33,12 @@ module.exports = yeoman.Base.extend({
     return this.prompt(prompts).then(function (props) {
       this.props = props;
     }.bind(this));
-  },
+  }
 
   /**
    * Grite the files from the template folder.
    */
-  writing: function () {
+  writing () {
     var done = this.async();
     var root = path.join(this.destinationRoot(), this.props.appFolder);
     if (!fs.existsSync(root)) {
@@ -52,7 +52,7 @@ module.exports = yeoman.Base.extend({
         var fileName = files[i];
         var targetName = fileName.replace(/^_/, '');
         if (fileName.startsWith('_')) {
-          this.template(fileName, targetName, this.props);
+          this.fs.copyTpl(this.templatePath(fileName), this.destinationPath(targetName), this.props);
         } else {
           this.fs.copy(
             this.templatePath(fileName),
@@ -61,12 +61,12 @@ module.exports = yeoman.Base.extend({
       }
       done();
     }.bind(this));
-  },
+  }
 
   /**
    * Install dependencies.
    */
-  install: function () {
+  install () {
     this.installDependencies({ bower: false, npm: true, callback: function() {
       this.log('\r\n');
       this.log('Your flowbot project is now created. You can use the following commands to get going');
@@ -75,4 +75,4 @@ module.exports = yeoman.Base.extend({
     }.bind(this) });
   }
 
-});
+};

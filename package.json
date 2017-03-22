@@ -1,6 +1,6 @@
 {
   "name": "generator-flowbot",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "This is a yeoman generator that makes easy the task of doing flow chatbots",
   "homepage": "",
   "author": {
@@ -18,10 +18,10 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.24.0",
+    "yeoman-generator": "^1.1.1",
     "chalk": "^1.0.0",
     "glob": "^7.1.1",
-    "yosay": "^1.0.0"
+    "yosay": "^2.0.0"
   },
   "devDependencies": {
     "yeoman-test": "^1.0.0",
