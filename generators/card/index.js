@@ -132,6 +132,64 @@ module.exports = yeoman.Base.extend({
       done();
     }
   },
+  inputButton: function() {
+    var done = this.async();
+    var validTypes = ['text', 'hero', 'prompt'];
+    if (validTypes.indexOf(this.data.card.type) < 0) {
+      done();
+    }
+    var prompts = [{
+      type: 'text',
+      name: 'title',
+      message: 'Caption of the button (Enter to finish): '
+    }];
+    this.prompt(prompts).then((answers) => {
+      if (answers.title && answers.title !== '') {
+        this.data.currentButton = { title: answers.title };
+        var prompts2 = [{
+          type: 'list',
+          name: 'buttonType',
+          message: 'What does the button?:',
+          choices: ['Open an URL', 'Write something']
+        }];
+        this.prompt(prompts2).then((answers) => {
+          if (answers.buttonType === 'Open an URL') {
+            this.data.currentButton.type = 'openurl';
+            var prompts3 = [{
+              type: 'text',
+              name: 'buttonUrl',
+              message: 'URL for the button: '
+            }];
+            this.prompt(prompts3).then((answer) => {
+              this.data.currentButton.url = answer.buttonUrl;
+              if (!this.data.card.buttons) {
+                this.data.card.buttons = [];
+              }
+              this.data.card.buttons.push(this.data.currentButton);
+              this.inputButton();
+            })
+          } else {
+            this.data.currentButton.type = 'imback';
+            var prompts4 = [{
+              type: 'text',
+              name: 'buttonValue',
+              message: 'What the button writes: '
+            }];
+            this.prompt(prompts4).then((answer) => {
+              this.data.currentButton.value = answer.buttonValue;
+              if (!this.data.card.buttons) {
+                this.data.card.buttons = [];
+              }
+              this.data.card.buttons.push(this.data.currentButton);
+              this.inputButton();
+            })
+          }
+        });
+      } else {
+        done();
+      }
+    });
+  },
   printCards: function () {
     this.data.cards.push(this.data.card);
     console.log(this.data.cards);
