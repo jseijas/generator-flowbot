@@ -224,7 +224,9 @@ module.exports = yeoman.Base.extend({
       choices: ['Finish choosing cards']
     }
     for (var i = 0; i < this.data.cards.length; i++) {
-      prompt.choices.push(this.data.cards[i].name);
+      if (this.data.cards[i].type==='hero') {
+        prompt.choices.push(this.data.cards[i].name);
+      }
     }
     this.prompt([prompt]).then((answers) => {
       if (answers.card === 'Finish choosing cards') {
