@@ -14,5 +14,5 @@ var opts = {
   dialogPath: './bot/dialogs'
 };
 
-server.bot = new BotManager(opts);
+server.bot = new FlowBot(opts);
 server.post('/api/messages', server.bot.connector.listen());
