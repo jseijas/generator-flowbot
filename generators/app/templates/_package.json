@@ -9,7 +9,7 @@
   },
   "author": "",
   "dependencies": {
-    "flow-bot-manager": "^1.0.16",
+    "flow-bot": "^1.0.0",
     "restify": "^4.3.0"
   }
 }

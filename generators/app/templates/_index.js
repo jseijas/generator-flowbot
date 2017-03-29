@@ -1,4 +1,4 @@
-const BotManager = require('flow-bot-manager').default;
+const FlowBot = require('flow-bot').FlowBot;
 const restify = require('restify');
 
 var server = restify.createServer();
@@ -13,5 +13,6 @@ var opts = {
   actionPath: './bot/actions',
   dialogPath: './bot/dialogs'
 };
-server.botManager = new BotManager(opts);
-server.post('/api/messages', server.botManager.connector.listen());
+
+server.bot = new BotManager(opts);
+server.post('/api/messages', server.bot.connector.listen());
