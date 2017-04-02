@@ -17,6 +17,31 @@ Then generate your new project:
 yo flowbot
 ```
 
+Then you'll be able to create cards. A card is an interaction with the user:
+
+```bash
+yo flowbot:card
+```
+
+You can also create actions. An action is a javascript function that can be executed in a dialog pipeline:
+
+```bash
+yo flowbot:action
+```
+
+You can also create plugins. A plugin is a class that is instantiated as a singleton, and can be used by all the actions of the bot:
+
+```bash
+yo flowbot:plugin
+```
+
+## About flow-bot
+
+Flow-Bot is a Framework to build bots based on the Microsoft Bot Framework, but including some cool features and a way of defining the bots only describing the cards to the user and the dialog flow.
+
+You can see all the information of Flow-Bot at https://github.com/jseijas/flow-bot
+
+
 ## Getting To Know Yeoman
 
  * Yeoman has a heart of gold.

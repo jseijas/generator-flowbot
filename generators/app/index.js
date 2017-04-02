@@ -72,6 +72,12 @@ module.exports = class extends Generator{
       this.log('Your flowbot project is now created. You can use the following commands to get going');
       this.log(chalk.green('    cd "'+this.props.appFolder+'"'));
       this.log(chalk.green('    npm start'));
+      this.log('You can create cards:');
+      this.log(chalk.green('    yo flowbot:card'));
+      this.log('You can create actions:');
+      this.log(chalk.green('    yo flowbot:action'));
+      this.log('You can create plugins:');
+      this.log(chalk.green('    yo flowbot:plugin'));
     }.bind(this) });
   }
 
